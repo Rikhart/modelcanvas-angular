@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Esporta School</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="stylesheet" href="libs/perfect-scrollbar-0.4.10.min.css"/>
+    <script src="libs/jquery-2.0.2.min.js"></script>
+    <script src="js/support.js"></script>
+    <script src="libs/perfect-scrollbar-0.4.10.min.js"></script>
+    <script src="libs/perfect-scrollbar-0.4.10.with-mousewheel.min.js"></script>
+</head>
+<body>
+<section class="container" ng-app="canvas" ng-controller="mainController">
+<section class=" col-xs-12 board" ng-controller="boardController">
+    <div class="col-board">
+        <div class="content-square type-right">
+            <div class="head">
+                <div class="mark icon-clip">
+                    <span>1</span>
+                </div>
+                <label>Asociaciones claves</label>
+            </div>
+            <div class="posits">
+                <div class="posit" ng-repeat="posit in board_prof.posits|orderBy:'created_date'|filter:board_prof.keys.key_partnerships">
+                    <div ng-if="!posit.edit_active">
+                        <p class="text">
+                            [[posit.description]]
+                        </p>
+                        <div class="btns after">
+                            <ul>
+                                <li>
+                                    <a href="#" data-ng-click="board_prof.edit_posit(posit)"><i class="fa fa-edit"></i></a>
+                                </li>
+                                <li>
+                                    <a href="" data-ng-click="board_prof.prep_del(posit)"><i class="fa fa-trash-o"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-if="posit.edit_active">
+                        <form action="">
+                            <textarea name="" ng-model="posit.description" class="edit_text" cols="30" rows="10"></textarea>
+                            <div class="validation" class="validation" ng-if="posit.err&&!posit.description">
+                                Este campo es necesario.
+                            </div>
+                            <ul class="btns">
+                                <li>
+                                    <a href="" class="btn" data-ng-click="board_prof.update_posit(posit)">Guardar</a>
+                                </li>
+                                <li>
+                                    <a href="" class="btn" data-ng-click="board_prof.cancel_posit(posit)">Cancelar</a>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                    <div class="alert_del" ng-if="posit.del_active">
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.delete_posit(posit)">Si</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.cancel_del(posit)">No</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="posit" ng-if="board_prof.keys.key_partnerships==board_prof.append_active">
+                    <form action="">
+                        <textarea name="" class="edit_text" cols="30" rows="10" ng-model="nposit.description"></textarea>
+                        <div class="validation" ng-if="nposit.err&&!nposit.description">
+                            Este campo es necesario.
+                        </div>
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.active_append()">Cancelar</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.create_posit(nposit)">Crear</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="posit blanck" ng-if="!(board_prof.keys.key_partnerships==board_prof.append_active)" data-ng-click="board_prof.active_append(board_prof.keys.key_partnerships)">
+                    <div class="plus-posit">
+                        <a href="">
+                            <i class="fa fa-plus fa-4x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--
+            --><div class="col-board">
+    <div class="content-square square2 type-right">
+        <div class="head">
+            <div class="mark icon-check">
+            </div>
+            <label>Actividades claves</label>
+        </div>
+
+        <div class="posits posits-content2">
+            <div class="posit" ng-repeat="posit in board_prof.posits|orderBy:'created_date'|filter:board_prof.keys.key_activities">
+                <div ng-if="!posit.edit_active">
+                    <p class="text">
+                        [[posit.description]]
+                    </p>
+                    <div class="btns after">
+                        <ul>
+                            <li>
+                                <a href="#" data-ng-click="board_prof.edit_posit(posit)"><i class="fa fa-edit"></i></a>
+                            </li>
+                            <li>
+                                <a href="" data-ng-click="board_prof.prep_del(posit)"><i class="fa fa-trash-o"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div ng-if="posit.edit_active">
+                    <form action="">
+                        <textarea name="" ng-model="posit.description" class="edit_text" cols="30" rows="10"></textarea>
+                        <div class="validation" class="validation" ng-if="posit.err&&!posit.description">
+                            Este campo es necesario.
+                        </div>
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.update_posit(posit)">Guardar</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.cancel_posit(posit)">Cancelar</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="alert_del" ng-if="posit.del_active">
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.delete_posit(posit)">Si</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.cancel_del(posit)">No</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="posit" ng-if="board_prof.keys.key_activities==board_prof.append_active">
+                <form action="">
+                    <textarea name="" class="edit_text" cols="30" rows="10" ng-model="nposit.description"></textarea>
+                    <div class="validation" ng-if="nposit.err&&!nposit.description">
+                        Este campo es necesario.
+                    </div>
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.active_append()">Cancelar</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.create_posit(nposit)">Crear</a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="posit blanck" ng-if="!(board_prof.keys.key_activities==board_prof.append_active)" data-ng-click="board_prof.active_append(board_prof.keys.key_activities)">
+                <div class="plus-posit">
+                    <a href="">
+                        <i class="fa fa-plus fa-4x"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-square square2 type-right type-top">
+        <div class="head">
+            <div class="mark icon-fabric">
+            </div>
+            <label>Recursos claves</label>
+        </div>
+        <div class="posits posits-content2">
+            <div class="posit" ng-repeat="posit in board_prof.posits|orderBy:'created_date'|filter:board_prof.keys.key_resources">
+                <div ng-if="!posit.edit_active">
+                    <p class="text">
+                        [[posit.description]]
+                    </p>
+                    <div class="btns after">
+                        <ul>
+                            <li>
+                                <a href="#" data-ng-click="board_prof.edit_posit(posit)"><i class="fa fa-edit"></i></a>
+                            </li>
+                            <li>
+                                <a href="" data-ng-click="board_prof.prep_del(posit)"><i class="fa fa-trash-o"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div ng-if="posit.edit_active">
+                    <form action="">
+                        <textarea name="" ng-model="posit.description" class="edit_text" cols="30" rows="10"></textarea>
+                        <div class="validation" class="validation" ng-if="posit.err&&!posit.description">
+                            Este campo es necesario.
+                        </div>
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.update_posit(posit)">Guardar</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.cancel_posit(posit)">Cancelar</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="alert_del" ng-if="posit.del_active">
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.delete_posit(posit)">Si</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.cancel_del(posit)">No</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="posit" ng-if="board_prof.keys.key_resources==board_prof.append_active">
+                <form action="">
+                    <textarea name="" class="edit_text" cols="30" rows="10" ng-model="nposit.description"></textarea>
+                    <div class="validation" ng-if="nposit.err&&!nposit.description">
+                        Este campo es necesario.
+                    </div>
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.active_append()">Cancelar</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.create_posit(nposit)">Crear</a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="posit blanck" ng-if="!(board_prof.keys.key_resources==board_prof.append_active)" data-ng-click="board_prof.active_append(board_prof.keys.key_resources)">
+                <div class="plus-posit">
+                    <a href="">
+                        <i class="fa fa-plus fa-4x"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--
+            --><div class="col-board">
+    <div class="content-square type-right">
+        <div class="head">
+            <div class="mark icon-gift">
+            </div>
+            <label>Proposición de valor</label>
+        </div>
+
+        <div class="posits">
+            <div class="posit" ng-repeat="posit in board_prof.posits|orderBy:'created_date'|filter:board_prof.keys.value_proposition">
+                <div ng-if="!posit.edit_active">
+                    <p class="text">
+                        [[posit.description]]
+                    </p>
+                    <div class="btns after">
+                        <ul>
+                            <li>
+                                <a href="#" data-ng-click="board_prof.edit_posit(posit)"><i class="fa fa-edit"></i></a>
+                            </li>
+                            <li>
+                                <a href="" data-ng-click="board_prof.prep_del(posit)"><i class="fa fa-trash-o"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div ng-if="posit.edit_active">
+                    <form action="">
+                        <textarea name="" ng-model="posit.description" class="edit_text" cols="30" rows="10"></textarea>
+                        <div class="validation" class="validation" ng-if="posit.err&&!posit.description">
+                            Este campo es necesario.
+                        </div>
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.update_posit(posit)">Guardar</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.cancel_posit(posit)">Cancelar</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="alert_del" ng-if="posit.del_active">
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.delete_posit(posit)">Si</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.cancel_del(posit)">No</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="posit" ng-if="board_prof.keys.value_proposition==board_prof.append_active">
+                <form action="">
+                    <textarea name="" class="edit_text" cols="30" rows="10" ng-model="nposit.description"></textarea>
+                    <div class="validation" ng-if="nposit.err&&!nposit.description">
+                        Este campo es necesario.
+                    </div>
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.active_append()">Cancelar</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.create_posit(nposit)">Crear</a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="posit blanck" ng-if="!(board_prof.keys.value_proposition==board_prof.append_active)" data-ng-click="board_prof.active_append(board_prof.keys.value_proposition)">
+                <div class="plus-posit">
+                    <a href="">
+                        <i class="fa fa-plus fa-4x"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--
+            --><div class="col-board">
+    <div class="content-square square2 type-right">
+        <div class="head">
+            <div class="mark icon-heart">
+            </div>
+            <label>Relaciones con <br/> los clientes</label>
+        </div>
+
+        <div class="posits posits-content2">
+            <div class="posit" ng-repeat="posit in board_prof.posits|orderBy:'created_date'|filter:board_prof.keys.relations_customers">
+                <div ng-if="!posit.edit_active">
+                    <p class="text">
+                        [[posit.description]]
+                    </p>
+                    <div class="btns after">
+                        <ul>
+                            <li>
+                                <a href="#" data-ng-click="board_prof.edit_posit(posit)"><i class="fa fa-edit"></i></a>
+                            </li>
+                            <li>
+                                <a href="" data-ng-click="board_prof.prep_del(posit)"><i class="fa fa-trash-o"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div ng-if="posit.edit_active">
+                    <form action="">
+                        <textarea name="" ng-model="posit.description" class="edit_text" cols="30" rows="10"></textarea>
+                        <div class="validation" class="validation" ng-if="posit.err&&!posit.description">
+                            Este campo es necesario.
+                        </div>
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.update_posit(posit)">Guardar</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.cancel_posit(posit)">Cancelar</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="alert_del" ng-if="posit.del_active">
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.delete_posit(posit)">Si</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.cancel_del(posit)">No</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="posit" ng-if="board_prof.keys.relations_customers==board_prof.append_active">
+                <form action="">
+                    <textarea name="" class="edit_text" cols="30" rows="10" ng-model="nposit.description"></textarea>
+                    <div class="validation" ng-if="nposit.err&&!nposit.description">
+                        Este campo es necesario.
+                    </div>
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.active_append()">Cancelar</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.create_posit(nposit)">Crear</a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="posit blanck" ng-if="!(board_prof.keys.relations_customers==board_prof.append_active)" data-ng-click="board_prof.active_append(board_prof.keys.relations_customers)">
+                <div class="plus-posit">
+                    <a href="">
+                        <i class="fa fa-plus fa-4x"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-square square2 type-right type-top">
+        <div class="head">
+            <div class="mark icon-car">
+            </div>
+            <label>Canales</label>
+        </div>
+
+        <div class="posits posits-content2">
+            <div class="posit" ng-repeat="posit in board_prof.posits|orderBy:'created_date'|filter:board_prof.keys.channels">
+                <div ng-if="!posit.edit_active">
+                    <p class="text">
+                        [[posit.description]]
+                    </p>
+                    <div class="btns after">
+                        <ul>
+                            <li>
+                                <a href="#" data-ng-click="board_prof.edit_posit(posit)"><i class="fa fa-edit"></i></a>
+                            </li>
+                            <li>
+                                <a href="" data-ng-click="board_prof.prep_del(posit)"><i class="fa fa-trash-o"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div ng-if="posit.edit_active">
+                    <form action="">
+                        <textarea name="" ng-model="posit.description" class="edit_text" cols="30" rows="10"></textarea>
+                        <div class="validation" class="validation" ng-if="posit.err&&!posit.description">
+                            Este campo es necesario.
+                        </div>
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.update_posit(posit)">Guardar</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.cancel_posit(posit)">Cancelar</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="alert_del" ng-if="posit.del_active">
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.delete_posit(posit)">Si</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.cancel_del(posit)">No</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="posit" ng-if="board_prof.keys.channels==board_prof.append_active">
+                <form action="">
+                    <textarea name="" class="edit_text" cols="30" rows="10" ng-model="nposit.description"></textarea>
+                    <div class="validation" ng-if="nposit.err&&!nposit.description">
+                        Este campo es necesario.
+                    </div>
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.active_append()">Cancelar</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.create_posit(nposit)">Crear</a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="posit blanck" ng-if="!(board_prof.keys.channels==board_prof.append_active)" data-ng-click="board_prof.active_append(board_prof.keys.channels)">
+                <div class="plus-posit">
+                    <a href="">
+                        <i class="fa fa-plus fa-4x"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--
+            --><div class="col-board">
+    <div class="content-square">
+        <div class="head">
+            <div class="mark icon-person">
+            </div>
+            <label>Segmentos de clientes</label>
+        </div>
+
+        <div class="posits">
+            <div class="posit" ng-repeat="posit in board_prof.posits|orderBy:'created_date'|filter:board_prof.keys.customer_segments">
+                <div ng-if="!posit.edit_active">
+                    <p class="text">
+                        [[posit.description]]
+                    </p>
+                    <div class="btns after">
+                        <ul>
+                            <li>
+                                <a href="#" data-ng-click="board_prof.edit_posit(posit)"><i class="fa fa-edit"></i></a>
+                            </li>
+                            <li>
+                                <a href="" data-ng-click="board_prof.prep_del(posit)"><i class="fa fa-trash-o"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div ng-if="posit.edit_active">
+                    <form action="">
+                        <textarea name="" ng-model="posit.description" class="edit_text" cols="30" rows="10"></textarea>
+                        <div class="validation" class="validation" ng-if="posit.err&&!posit.description">
+                            Este campo es necesario.
+                        </div>
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.update_posit(posit)">Guardar</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.cancel_posit(posit)">Cancelar</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="alert_del" ng-if="posit.del_active">
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.delete_posit(posit)">Si</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.cancel_del(posit)">No</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="posit" ng-if="board_prof.keys.customer_segments==board_prof.append_active">
+                <form action="">
+                    <textarea name="" class="edit_text" cols="30" rows="10" ng-model="nposit.description"></textarea>
+                    <div class="validation" ng-if="nposit.err&&!nposit.description">
+                        Este campo es necesario.
+                    </div>
+                    <ul class="btns">
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.active_append()">Cancelar</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn" data-ng-click="board_prof.create_posit(nposit)">Crear</a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="posit blanck" ng-if="!(board_prof.keys.customer_segments==board_prof.append_active)" data-ng-click="board_prof.active_append(board_prof.keys.customer_segments)">
+                <div class="plus-posit">
+                    <a href="">
+                        <i class="fa fa-plus fa-4x"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--
+            --><div class="col-board-xs">
+    <div class="content-square type-right">
+        <div class="head">
+            <div class="mark icon-stick">
+            </div>
+            <label>Estructura de costos</label>
+        </div>
+
+        <div class="posits">
+            <div class="horizontal" style="width:[[((board_prof.posits|filter:board_prof.keys.cost_structure).length+1)*210]]px">
+
+                <div class="posit" ng-repeat="posit in board_prof.posits|orderBy:'created_date'|filter:board_prof.keys.cost_structure">
+                    <div ng-if="!posit.edit_active">
+                        <p class="text">
+                            [[posit.description]]
+                        </p>
+                        <div class="btns after">
+                            <ul>
+                                <li>
+                                    <a href="#" data-ng-click="board_prof.edit_posit(posit)"><i class="fa fa-edit"></i></a>
+                                </li>
+                                <li>
+                                    <a href="" data-ng-click="board_prof.prep_del(posit)"><i class="fa fa-trash-o"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-if="posit.edit_active">
+                        <form action="">
+                            <textarea name="" ng-model="posit.description" class="edit_text" cols="30" rows="10"></textarea>
+                            <div class="validation" class="validation" ng-if="posit.err&&!posit.description">
+                                Este campo es necesario.
+                            </div>
+                            <ul class="btns">
+                                <li>
+                                    <a href="" class="btn" data-ng-click="board_prof.update_posit(posit)">Guardar</a>
+                                </li>
+                                <li>
+                                    <a href="" class="btn" data-ng-click="board_prof.cancel_posit(posit)">Cancelar</a>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                    <div class="alert_del" ng-if="posit.del_active">
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.delete_posit(posit)">Si</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.cancel_del(posit)">No</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="posit" ng-if="board_prof.keys.cost_structure==board_prof.append_active">
+                    <form action="">
+                        <textarea name="" class="edit_text" cols="30" rows="10" ng-model="nposit.description"></textarea>
+                        <div class="validation" ng-if="nposit.err&&!nposit.description">
+                            Este campo es necesario.
+                        </div>
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.active_append()">Cancelar</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.create_posit(nposit)">Crear</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="posit blanck" ng-if="!(board_prof.keys.cost_structure==board_prof.append_active)" data-ng-click="board_prof.active_append(board_prof.keys.cost_structure)">
+                    <div class="plus-posit">
+                        <a href="">
+                            <i class="fa fa-plus fa-4x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--
+            --><div class="col-board-xs">
+    <div class="content-square">
+        <div class="head">
+            <div class="mark icon-money">
+            </div>
+            <label>Fuentes de ingresos</label>
+        </div>
+
+        <div class="posits">
+            <div class="horizontal" style="width:[[((board_prof.posits|filter:board_prof.keys.sources_revenue).length+1)*210]]px">
+
+                <div class="posit" ng-repeat="posit in board_prof.posits|orderBy:'created_date'|filter:board_prof.keys.sources_revenue">
+                    <div ng-if="!posit.edit_active">
+                        <p class="text">
+                            [[posit.description]]
+                        </p>
+                        <div class="btns after">
+                            <ul>
+                                <li>
+                                    <a href="#" data-ng-click="board_prof.edit_posit(posit)"><i class="fa fa-edit"></i></a>
+                                </li>
+                                <li>
+                                    <a href="" data-ng-click="board_prof.prep_del(posit)"><i class="fa fa-trash-o"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-if="posit.edit_active">
+                        <form action="">
+                            <textarea name="" ng-model="posit.description" class="edit_text" cols="30" rows="10"></textarea>
+                            <div class="validation" class="validation" ng-if="posit.err&&!posit.description">
+                                Este campo es necesario.
+                            </div>
+                            <ul class="btns">
+                                <li>
+                                    <a href="" class="btn" data-ng-click="board_prof.update_posit(posit)">Guardar</a>
+                                </li>
+                                <li>
+                                    <a href="" class="btn" data-ng-click="board_prof.cancel_posit(posit)">Cancelar</a>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                    <div class="alert_del" ng-if="posit.del_active">
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.delete_posit(posit)">Si</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.cancel_del(posit)">No</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="posit" ng-if="board_prof.keys.sources_revenue==board_prof.append_active">
+                    <form action="">
+                        <textarea name="" class="edit_text" cols="30" rows="10" ng-model="nposit.description"></textarea>
+                        <div class="validation" ng-if="nposit.err&&!nposit.description">
+                            Este campo es necesario.
+                        </div>
+                        <ul class="btns">
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.active_append()">Cancelar</a>
+                            </li>
+                            <li>
+                                <a href="" class="btn" data-ng-click="board_prof.create_posit(nposit)">Crear</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="posit blanck" ng-if="!(board_prof.keys.sources_revenue==board_prof.append_active)" data-ng-click="board_prof.active_append(board_prof.keys.sources_revenue)">
+                    <div class="plus-posit">
+                        <a href="">
+                            <i class="fa fa-plus fa-4x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+</section>
+<script src="libs/angular.js"></script>
+<script src="js/modelcanvas.js"></script>
+</body>
+</html>
+
+<style>
+    .alert_del{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        line-height: 145px;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.32);
+    }
+    .alert_del .btns{
+        vertical-align: middle;
+    }
+    .validation{
+        position: absolute;
+        bottom: 37px;
+        left: 17px;
+        border-radius: 5px;
+        color: rgb(162, 81, 81);
+        background: rgba(121, 65, 78, 0.35);
+    }
+    .horizontal{
+        text-align: left !important;
+    }
+    .horizontal .posit:first-of-type{
+        margin-left: 15px !important;
+    }
+    .board .col-board-xs{
+        height: 240px !important;
+    }
+
+    .board .col-board-xs .posit{
+        text-align: center !important;
+    }
+    .board .col-board-xs .posits{
+        height: 200px !important;
+        max-height: 200px !important;
+    }
+</style>
